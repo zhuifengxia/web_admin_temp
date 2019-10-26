@@ -15,11 +15,11 @@ return [
     // 服务器地址
     'hostname'        => '127.0.0.1',
     // 数据库名
-    'database'        => 'temp_web',
+    'database'        => 'temp_liuxiaomo_c',
     // 用户名
-    'username'        => 'root',
+    'username'        => 'temp_liuxiaomo_c',
     // 密码
-    'password'        => 'root',
+    'password'        => 'GcaMGGtMnAhejSLN',
     // 端口
     'hostport'        => '',
     // 连接dsn
