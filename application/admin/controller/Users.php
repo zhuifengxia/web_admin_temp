@@ -1,22 +1,21 @@
 <?php
 
 /**
- * Description: 后台数据用户管理相关操作.
+ * Description: 后台用户管理相关操作.
  * Author: momo
  * Date: 2019-06-08
  * Copyright: momo
  */
 namespace app\admin\controller;
-use app\model\Customer;
 
 class Users extends Base
 {
     /**
-     * 客服/精英列表数据
+     * 管理员列表
      */
-    public function customers()
+    public function userList()
     {
-        $customerModel = new Customer();
+        $customerModel = new Users();
         $customers=$customerModel->dataList();
         $this->assign('customers', $customers);
         return $this->fetch('customers');
@@ -28,7 +27,7 @@ class Users extends Base
      */
     public function addCustomer($id=0)
     {
-        $customerModel = new Customer();
+        $customerModel = new Users();
         if ($id) {
             //获取编辑的详情数据信息
             $customdetail = $customerModel->customerdetails($id);
@@ -44,7 +43,7 @@ class Users extends Base
      */
     public function doAddCustomer()
     {
-        $customerModel = new Customer();
+        $customerModel = new Users();
         //是否存在
         $data = $customerModel->customisexist($_POST['id'], $_POST['customername'], $_POST['datatype']);
         if ($data) {
@@ -61,7 +60,7 @@ class Users extends Base
      */
     public function delCustomer($id)
     {
-        $customerModel = new Customer();
+        $customerModel = new Users();
         $customerModel->delcustomer($id);
         $this->success('删除成功', '/admin/users/customers');
     }
