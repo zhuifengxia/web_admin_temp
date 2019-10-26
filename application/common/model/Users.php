@@ -6,7 +6,7 @@
  * Copyright: momo
  */
 
-namespace app\model;
+namespace app\common\model;
 
 
 class Users extends Base

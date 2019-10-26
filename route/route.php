@@ -26,8 +26,12 @@ Route::group('admin',[
     'login'=>['admin/AdminAuth/doLogin',['method' => 'post']],
     'loginOut'=>['admin/AdminAuth/loginOut'],
 
-    //首页
+    //后台首页
     'index'=>['admin/Admin/index',['method' => 'get']],
+
+    //管理组管理
+    'group/list'   => ['admin/Group/groupList', ['method' => 'get']],
+    'group/add/[:id]'   => ['admin/Group/groupAdd', ['method' => 'get|post']],
 
     //用户管理
     'user/list'   => ['admin/Admin/userList', ['method' => 'get']],

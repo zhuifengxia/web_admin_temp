@@ -6,7 +6,7 @@
  * Copyright: momo
  */
 
-namespace app\model;
+namespace app\common\model;
 
 use think\Model;
 
@@ -43,7 +43,7 @@ class Base extends Model
     {
         $data = $className::where('is_logic_del', 0)
             ->where($where)
-            ->find();
+            ->findOrEmpty();
         return $data;
     }
 
