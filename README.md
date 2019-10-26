@@ -4,6 +4,9 @@
 ######工具类库
 安装类库,在跟目录运行`composer require 'mo/mo-common:dev-master'`
 
+######验证码类库
+安装类库，在根目录运行`composer require topthink/think-captcha=2.0.*`
+
 ######微信类库（PHP>=7.0）
 安装类库,在跟目录运行`composer require overtrue/wechat:~4.0 -vvv`
 
