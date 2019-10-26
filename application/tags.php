@@ -25,4 +25,8 @@ return [
     'log_write'    => [],
     // 应用结束
     'app_end'      => [],
+    //后台验证登录
+    'admin_check' => [
+        'app\\admin\\behavior\\LoginAuth',
+    ],
 ];

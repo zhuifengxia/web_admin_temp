@@ -1,0 +1,48 @@
+<div class="panel-heading">求购求租列表
+   <a style="float:right;margin-top:-6px;" href="/admin/business/addSupply" class="btn btn-primary">
+       添加求购求租信息</a>
+</div>
+<div class="panel-body">
+    <div class="box-body">
+        <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+            <div class="row">
+                <div class="col-sm-12">
+                    <table class="table table-hover dataTable" >
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>标题</th>
+                            <th>供求类型</th>
+                            <th>户型</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {foreach $data as $item}
+                        <tr>
+                            <td>{$item.id}</td>
+                            <td>{$item.msg_title}</td>
+                            <td>{$item.type_value}</td>
+                            <td>{$item.house_type}</td>
+                            <td><a href="/admin/business/addSupply/{$item.id}"><i class="fa fa-pencil fa-fw" style="font-size: 20px;" title="编辑"></i></a>
+                                <a href="/admin/business/delSupply/{$item.id}" onclick="return confirm('确定要删除该求购求租信息么？请慎重操作!!!')"><i class="fa fa-trash-o fa-fw" style="font-size: 20px;" title="删除"></i></a>
+                            </td>
+                        </tr>
+                        {/foreach}
+                        </tbody>
+                    </table>
+                    <div class="col-sm-7" style="float: right">
+                        {$data->render()}
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-9 ">
+                    {$data[0]?"":"暂无数据"}
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>

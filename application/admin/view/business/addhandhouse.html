@@ -1,0 +1,297 @@
+{css href="/static/webuploader/css/webuploader.css" /}
+{css href="/static/webuploader/css/style.css" /}
+<!-- jQuery 2.1.4 -->
+{js href="/static/admin/plugins/jQuery/jquery-1.9.1.min.js" /}
+{js href="/static/webuploader/dist/webuploader.js" /}
+{js href="/static/webuploader/dist/upload.js" /}
+<div class="panel-heading">{$handhousedetail.id==0?"添加":"编辑"}二手房信息</div>
+<div class="panel-body">
+    <form action="/admin/business/doAddHandhouse" method="POST">
+        <div class="box-body">
+
+            <div class="form-group" style="clear:both;">
+                <label>房源标题</label>
+                <input type="hidden" name="id" value="{$handhousedetail.id}">
+                <input type="text" name="msgtitle" value="{$handhousedetail.msg_title}" class="form-control"
+                       placeholder="请输入房源标题">
+            </div>
+
+            <div class="form-group">
+                <label>小区名称</label>
+                <input type="text" name="estatename" value="{$handhousedetail.estate_name}" class="form-control"
+                       placeholder="请输入小区名称">
+            </div>
+            <div class="form-group">
+                <label>户型(例：2室1厅1卫)</label>
+                <input type="text" name="housetype" value="{$handhousedetail.house_type}" class="form-control"
+                       placeholder="请输入户型">
+            </div>
+
+            <div class="form-group">
+                <label>建筑面积(平方米)</label>
+                <input type="text" name="acreagenum" value="{$handhousedetail.acreage_num}" class="form-control"
+                       placeholder="请输入建筑面积">
+            </div>
+
+            <div class="form-group">
+                <label style="display: block;">供求类型</label>
+                {foreach name="typevalues" item="item" key="k"}
+                <input type="radio" name="typevalue" value="{$k}" id="typevalue{$k}"
+                       {$handhousedetail.type_value==$k?"checked":""}  {$handhousedetail?"":($k==1?"checked":"")}/>
+                <label for="typevalue{$k}" class="radioclass">&nbsp;{$item}</label>
+                {/foreach}
+            </div>
+
+            <div class="form-group">
+                <label style="display: block;">装修档次</label>
+                {foreach name="levelarr" item="item" key="k"}
+                <input type="radio" name="decoratelevel" value="{$k}" id="decoratelevel{$k}"
+                       {$handhousedetail.decorate_level==$k?"checked":""}/>
+                <label for="decoratelevel{$k}" class="radioclass">&nbsp;{$item}</label>
+                {/foreach}
+            </div>
+
+            <div class="form-group">
+                <label style="display: block;">朝向</label>
+                {foreach name="orientation" item="item" key="k"}
+                <input type="radio" name="orientation" value="{$k}" id="orientation{$k}"
+                       {$handhousedetail.orientation==$k?"checked":""}/>
+                <label for="orientation{$k}" class="radioclass">&nbsp;{$item}</label>
+                {/foreach}
+            </div>
+
+            <div class="form-group">
+                <label style="display: block;">是否有房产证</label>
+                <input type="radio" name="iscertificate" value="0" id="iscertificate0"
+                       {$handhousedetail.is_certificate==0?"checked":""}/>
+                <label for="iscertificate0" class="radioclass">&nbsp;没有</label>
+
+                <input type="radio" name="iscertificate" value="1" id="iscertificate1"
+                       {$handhousedetail.is_certificate==1?"checked":""}/>
+                <label for="iscertificate1" class="radioclass">&nbsp;有</label>
+            </div>
+
+            <div class="form-group">
+                <label id="pricelabel">租金(元/月)</label>
+                <input type="text" name="pricenum" id="pricenum" value="{$handhousedetail.price_num}"
+                       class="form-control"
+                       placeholder="请输入租金">
+            </div>
+
+
+            <div class="form-group">
+                <label style="display: block">面积范围</label>
+                {foreach name="scopearr" item="item" key="k"}
+                <input type="radio" name="acreagescope" value="{$k}" id="acreagescope{$k}"
+                       {$handhousedetail.type_value==$k?"checked":""}/>
+                <label for="acreagescope{$k}" class="radioclass">&nbsp;{$item}</label>
+                {/foreach}
+            </div>
+
+            <div class="form-group" id="oneprice" style="display: none">
+                <label style="display: block">价格范围</label>
+                {foreach name="onescopearr" item="item" key="k"}
+                <input type="radio" name="pricescope1" value="{$k}" id="opricescope{$k}"
+                       {$handhousedetail.price_scope==$k?"checked":""}/>
+                <label for="opricescope{$k}" class="radioclass">&nbsp;{$item}</label>
+                {/foreach}
+            </div>
+
+            <div class="form-group" id="twoprice">
+                <label style="display: block">租金范围</label>
+                {foreach name="twoscopearr" item="item" key="k"}
+                <input type="radio" name="pricescope" value="{$k}" id="tpricescope{$k}"
+                       {$handhousedetail.price_scope==$k?"checked":""}/>
+                <label for="tpricescope{$k}" class="radioclass">&nbsp;{$item}</label>
+                {/foreach}
+            </div>
+
+            <div class="form-group">
+                <label>房源编号</label>
+                <input type="text" name="housenum" value="{$handhousedetail.house_num}" class="form-control"
+                       placeholder="请输入房源编号">
+            </div>
+
+            <div class="form-group">
+                <label>楼层</label>
+                <input type="text" name="floornum" value="{$handhousedetail.floor_num}" class="form-control"
+                       placeholder="请输入楼层">
+            </div>
+
+            <div class="form-group">
+                <label>总楼层</label>
+                <input type="text" name="totalfloor" value="{$handhousedetail.total_floor}" class="form-control"
+                       placeholder="请输入总楼层">
+            </div>
+            <div class="form-group">
+                <label>房屋配置</label>
+                <input type="text" name="houseallocation" value="{$handhousedetail.house_allocation}"
+                       class="form-control"
+                       placeholder="请输入房屋配置">
+            </div>
+
+            <div class="form-group">
+                <label>内容详情</label>
+                <textarea name="msginfo" class="form-control"
+                          placeholder="请输入内容详情">{$handhousedetail.msg_info}</textarea>
+            </div>
+
+            <div class="form-group">
+                <label>联系人</label>
+                <input type="text" name="linkname" value="{$handhousedetail.link_name}" class="form-control"
+                       placeholder="请输入联系人">
+            </div>
+
+            <div class="form-group">
+                <label>联系电话</label>
+                <input type="text" name="linkphone" value="{$handhousedetail.link_phone}" class="form-control"
+                       placeholder="请输入联系电话">
+            </div>
+
+            <div class="form-group">
+                <label>详细地址</label>
+                <input type="text" name="linkaddress" value="{$handhousedetail.link_address}" class="form-control"
+                       placeholder="请输入详细地址">
+            </div>
+
+            <div class="form-group">
+                <input type="hidden" id="imgurls" name="imgurls" value="{$handhousedetail.imgurls}"/>
+                <label>二手房图片</label>
+                <div>
+                    {foreach $handhousedetail.img_urls as $img}
+                    <div onmouseover="picyiru(this,0)" onmouseout="picyiru(this,1)"
+                         style="float: left;margin-right: 10px;">
+                        <img src="{$img.img_url}" style="width:100px;height:100px;"/>
+                        <div class="picrem"
+                             style="background: rgba(28, 28, 28, 0.8); position: absolute; height: 20px; width: 100px; margin-top: -25px; display: none;">
+                            <div style="width:95px;text-align: right">
+                                <a href="javascript:void(0)" onclick="delpic(this,{$img.id},'{$img.img_url}')"><i
+                                        class="fa fa-trash-o fa-lg"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    {/foreach}
+                    <div style="clear: both;"></div>
+                </div>
+
+
+                <div id="uploader">
+                    <div class="queueList">
+                        <div id="dndArea" class="placeholder">
+                            <div id="filePicker"></div>
+                            <p>或将照片拖到这里，单次最多可选300张</p>
+                        </div>
+                    </div>
+                    <div class="statusBar" style="display:none;">
+                        <div class="progress">
+                            <span class="text">0%</span>
+                            <span class="percentage"></span>
+                        </div>
+                        <div class="info"></div>
+                        <div class="btns">
+                            <div id="filePicker2"></div>
+                            <div class="uploadBtn">开始上传</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">确认保存</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    function picyiru(obj, type) {
+        if (type == 0) {
+            $(obj).find('.picrem').show();
+        } else {
+            $(obj).find('.picrem').hide();
+        }
+    }
+
+    function delpic(thisdata, obj, imgurl) {
+        if (confirm('确定要删除此图片么？请慎重操作!!!')) {
+            $.ajax({
+                type: "POST",
+                url: "/admin/business/delPic",
+                data: "id=" + obj + "&imgurl=" + imgurl,
+                success: function (msg) {
+                    if (msg == 0) {
+                        var imgurls = $("#imgurls").val();
+                        var newstr = imgurls.replace(imgurl + ";", "");
+                        $("#imgurls").val(newstr);
+                        $(thisdata).parent().parent().parent().remove();
+                    }
+
+                }
+            });
+        }
+    }
+
+    $(function () {
+        var type_value = {$handhousedetail.type_value?:0};
+        switch (type_value) {
+            case 1:    //1出租
+                $("#pricelabel").text("租金(元/月)");
+                $("#pricenum").attr("placeholder", "请输入租金");
+                $("#twoprice").show();
+                $("#oneprice").hide();
+                break;
+            case 2:    //2出售；
+                $("#pricelabel").text("售价(万元)");
+                $("#pricenum").attr("placeholder", "请输入售价");
+                $("#twoprice").hide();
+                $("#oneprice").show();
+                break;
+            case 3:    //3求租；
+                $("#pricelabel").text("租金(元/月)");
+                $("#pricenum").attr("placeholder", "请输入租金");
+                $("#twoprice").show();
+                $("#oneprice").hide();
+                break;
+            case 4:    //4求购
+                $("#pricelabel").text("售价(万元)");
+                $("#pricenum").attr("placeholder", "请输入售价");
+                $("#twoprice").hide();
+                $("#oneprice").show();
+                break;
+            default:
+                $("#pricelabel").text("租金(元/月)");
+                $("#pricenum").attr("placeholder", "请输入租金");
+                $("#twoprice").show();
+                $("#oneprice").hide();
+                break;
+        }
+        $('input[type=radio][name=typevalue]').change(function () {
+            switch (this.value) {
+                case "1":    //1出租
+                    $("#pricelabel").text("租金(元/月)");
+                    $("#pricenum").attr("placeholder", "请输入租金");
+                    $("#twoprice").show();
+                    $("#oneprice").hide();
+                    break;
+                case "2":    //2出售；
+                    $("#pricelabel").text("售价(万元)");
+                    $("#pricenum").attr("placeholder", "请输入售价");
+                    $("#twoprice").hide();
+                    $("#oneprice").show();
+                    break;
+                case "3":    //3求租；
+                    $("#pricelabel").text("租金(元/月)");
+                    $("#pricenum").attr("placeholder", "请输入租金");
+                    $("#twoprice").show();
+                    $("#oneprice").hide();
+                    break;
+                case "4":    //4求购
+                    $("#pricelabel").text("售价(万元)");
+                    $("#pricenum").attr("placeholder", "请输入售价");
+                    $("#twoprice").hide();
+                    $("#oneprice").show();
+                    break;
+            }
+        });
+    })
+</script>

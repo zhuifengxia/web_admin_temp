@@ -1,0 +1,182 @@
+{css href="/static/webuploader/css/webuploader.css" /}
+{css href="/static/webuploader/css/style.css" /}
+<!-- jQuery 2.1.4 -->
+{js href="/static/admin/plugins/jQuery/jquery-1.9.1.min.js" /}
+{js href="/static/webuploader/dist/webuploader.js" /}
+{js href="/static/webuploader/dist/upload.js" /}
+<div class="panel-heading">{$joindetail.id==0?"添加":"编辑"}加盟信息</div>
+<div class="panel-body">
+    <form action="/admin/business/doAddJoin" method="POST">
+        <div class="box-body">
+
+            <div class="form-group" style="clear:both;">
+                <label>信息标题</label>
+                <input type="hidden" name="id" value="{$joindetail.id}">
+                <input type="text" name="msgtitle" value="{$joindetail.msg_title}" class="form-control"
+                       placeholder="请输入信息标题">
+            </div>
+
+            <div class="form-group">
+                <label>选择加盟类型</label>
+                <select style="width:55%" class="form-control" id="join_type" name="jointype">
+                    {foreach $industrys as $industry}
+                    <option value="{$industry.id}" {$transferdetail.join_type==$industry.id ?
+                    'selected' : ''} >{$industry.industry_name}</option>
+                    {/foreach}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>品牌名称</label>
+                <input type="text" name="brandname" value="{$joindetail.brand_name}" class="form-control"
+                       placeholder="请输入品牌名称">
+            </div>
+
+            <div class="form-group">
+                <label style="display: block;">品牌历史</label>
+                {foreach name="brandarr" item="item" key="k"}
+                <input type="radio" name="brandhistory" value="{$k}" id="brandhistory{$k}"
+                       {$joindetail.brand_history==$k?"checked":""} />
+                <label for="brandhistory{$k}" class="radioclass">&nbsp;{$item}</label>
+                {/foreach}
+            </div>
+
+            <div class="form-group">
+                <label style="display: block;">投资金额</label>
+                {foreach name="investnumarr" item="item" key="k"}
+                <input type="radio" name="investnum" value="{$k}" id="investnum{$k}"
+                       {$joindetail.invest_num==$k?"checked":""} />
+                <label for="investnum{$k}" class="radioclass">&nbsp;{$item}</label>
+                {/foreach}
+            </div>
+
+            <div class="form-group">
+                <label style="display: block;">全国分店数</label>
+                {foreach name="storearr" item="item" key="k"}
+                <input type="radio" name="storenum" value="{$k}" id="storenum{$k}"
+                       {$joindetail.store_num==$k?"checked":""}/>
+                <label for="storenum{$k}" class="radioclass">&nbsp;{$item}</label>
+                {/foreach}
+            </div>
+
+            <div class="form-group">
+                <label>加盟费(元)</label>
+                <input type="text" name="joinmoney" value="{$joindetail.join_money}"
+                       class="form-control"
+                       placeholder="请输入加盟费">
+            </div>
+
+            <div class="form-group">
+                <label>房源编号</label>
+                <input type="text" name="housenum" value="{$joindetail.house_num}" class="form-control"
+                       placeholder="请输入房源编号">
+            </div>
+
+            <div class="form-group">
+                <label>公司网址</label>
+                <input type="text" name="companyurl" value="{$joindetail.company_url}" class="form-control"
+                       placeholder="请输入公司网址">
+            </div>
+
+
+            <div class="form-group">
+                <label>内容详情</label>
+                <textarea name="msginfo" class="form-control"
+                          placeholder="请输入内容详情">{$joindetail.msg_info}</textarea>
+            </div>
+
+            <div class="form-group">
+                <label>联系人</label>
+                <input type="text" name="linkname" value="{$joindetail.link_name}" class="form-control"
+                       placeholder="请输入联系人">
+            </div>
+
+            <div class="form-group">
+                <label>联系电话</label>
+                <input type="text" name="linkphone" value="{$joindetail.link_phone}" class="form-control"
+                       placeholder="请输入联系电话">
+            </div>
+
+            <div class="form-group">
+                <label>详细地址</label>
+                <input type="text" name="linkaddress" value="{$joindetail.link_address}" class="form-control"
+                       placeholder="请输入详细地址">
+            </div>
+
+            <div class="form-group">
+                <input type="hidden" id="imgurls" name="imgurls" value="{$joindetail.imgurls}"/>
+                <label>加盟图片</label>
+                <div>
+                    {foreach $joindetail.img_urls as $img}
+                    <div onmouseover="picyiru(this,0)" onmouseout="picyiru(this,1)"
+                         style="float: left;margin-right: 10px;">
+                        <img src="{$img.img_url}" style="width:100px;height:100px;"/>
+                        <div class="picrem"
+                             style="background: rgba(28, 28, 28, 0.8); position: absolute; height: 20px; width: 100px; margin-top: -25px; display: none;">
+                            <div style="width:95px;text-align: right">
+                                <a href="javascript:void(0)" onclick="delpic(this,{$img.id},'{$img.img_url}')"><i
+                                        class="fa fa-trash-o fa-lg"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    {/foreach}
+                    <div style="clear: both;"></div>
+                </div>
+
+
+                <div id="uploader">
+                    <div class="queueList">
+                        <div id="dndArea" class="placeholder">
+                            <div id="filePicker"></div>
+                            <p>或将照片拖到这里，单次最多可选300张</p>
+                        </div>
+                    </div>
+                    <div class="statusBar" style="display:none;">
+                        <div class="progress">
+                            <span class="text">0%</span>
+                            <span class="percentage"></span>
+                        </div>
+                        <div class="info"></div>
+                        <div class="btns">
+                            <div id="filePicker2"></div>
+                            <div class="uploadBtn">开始上传</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">确认保存</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    function picyiru(obj, type) {
+        if (type == 0) {
+            $(obj).find('.picrem').show();
+        } else {
+            $(obj).find('.picrem').hide();
+        }
+    }
+
+    function delpic(thisdata, obj, imgurl) {
+        if (confirm('确定要删除此图片么？请慎重操作!!!')) {
+            $.ajax({
+                type: "POST",
+                url: "/admin/business/delPic",
+                data: "id=" + obj + "&imgurl=" + imgurl,
+                success: function (msg) {
+                    if (msg == 0) {
+                        var imgurls = $("#imgurls").val();
+                        var newstr = imgurls.replace(imgurl + ";", "");
+                        $("#imgurls").val(newstr);
+                        $(thisdata).parent().parent().parent().remove();
+                    }
+
+                }
+            });
+        }
+    }
+</script>

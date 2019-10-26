@@ -1,0 +1,193 @@
+{css href="/static/webuploader/css/webuploader.css" /}
+{css href="/static/webuploader/css/style.css" /}
+<!-- jQuery 2.1.4 -->
+{js href="/static/admin/plugins/jQuery/jquery-1.9.1.min.js" /}
+{js href="/static/webuploader/dist/webuploader.js" /}
+{js href="/static/webuploader/dist/upload.js" /}
+<div class="panel-heading">{$supplydetail.id==0?"添加":"编辑"}求购求租信息</div>
+<div class="panel-body">
+    <form action="/admin/business/doAddSupply" method="POST">
+        <div class="box-body">
+
+            <div class="form-group" style="clear:both;">
+                <label>房源标题</label>
+                <input type="hidden" name="id" value="{$supplydetail.id}">
+                <input type="text" name="msgtitle" value="{$supplydetail.msg_title}" class="form-control"
+                       placeholder="请输入房源标题">
+            </div>
+
+            <div class="form-group">
+                <label>面积(平方米)</label>
+                <input type="text" name="acreagenum" value="{$supplydetail.acreage_num}" class="form-control"
+                       placeholder="请输入面积">
+            </div>
+
+            <div class="form-group">
+                <label style="display: block;">供求类型</label>
+                {foreach name="typevalues" item="item" key="k"}
+                <input type="radio" name="typevalue" value="{$k}" id="typevalue{$k}"
+                       {$supplydetail.type_value==$k?"checked":""} {$supplydetail?"":($k==3?"checked":"")} />
+                <label for="typevalue{$k}" class="radioclass">&nbsp;{$item}</label>
+                {/foreach}
+            </div>
+
+            <div class="form-group">
+                <label id="pricelabel">租金(元/月)</label>
+                <input type="text" name="pricenum" id="pricenum" value="{$supplydetail.price_num}" class="form-control"
+                       placeholder="请输入租金">
+            </div>
+
+            <div class="form-group">
+                <label>户型(例：2室1厅1卫)</label>
+                <input type="text" name="housetype" value="{$supplydetail.house_type}" class="form-control"
+                       placeholder="请输入户型">
+            </div>
+
+            <div class="form-group">
+                <label style="display: block">面积范围</label>
+                {foreach name="scopearr" item="item" key="k"}
+                <input type="radio" name="acreagescope" value="{$k}" id="acreagescope{$k}"
+                       {$supplydetail.type_value==$k?"checked":""}/>
+                <label for="acreagescope{$k}" class="radioclass">&nbsp;{$item}</label>
+                {/foreach}
+            </div>
+
+            <div class="form-group">
+                <label>房源编号</label>
+                <input type="text" name="housenum" value="{$supplydetail.house_num}" class="form-control"
+                       placeholder="请输入房源编号">
+            </div>
+
+            <div class="form-group">
+                <label>内容详情</label>
+                <textarea name="msginfo" class="form-control"
+                          placeholder="请输入内容详情">{$supplydetail.msg_info}</textarea>
+            </div>
+
+            <div class="form-group">
+                <label>联系人</label>
+                <input type="text" name="linkname" value="{$supplydetail.link_name}" class="form-control"
+                       placeholder="请输入联系人">
+            </div>
+
+            <div class="form-group">
+                <label>联系电话</label>
+                <input type="text" name="linkphone" value="{$supplydetail.link_phone}" class="form-control"
+                       placeholder="请输入联系电话">
+            </div>
+
+            <div class="form-group">
+                <label>详细地址</label>
+                <input type="text" name="linkaddress" value="{$supplydetail.link_address}" class="form-control"
+                       placeholder="请输入详细地址">
+            </div>
+
+            <div class="form-group">
+                <input type="hidden" id="imgurls" name="imgurls" value="{$supplydetail.imgurls}"/>
+                <label>图片信息</label>
+                <div>
+                    {foreach $supplydetail.img_urls as $img}
+                    <div onmouseover="picyiru(this,0)" onmouseout="picyiru(this,1)"
+                         style="float: left;margin-right: 10px;">
+                        <img src="{$img.img_url}" style="width:100px;height:100px;"/>
+                        <div class="picrem"
+                             style="background: rgba(28, 28, 28, 0.8); position: absolute; height: 20px; width: 100px; margin-top: -25px; display: none;">
+                            <div style="width:95px;text-align: right">
+                                <a href="javascript:void(0)" onclick="delpic(this,{$img.id},'{$img.img_url}')"><i
+                                        class="fa fa-trash-o fa-lg"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    {/foreach}
+                    <div style="clear: both;"></div>
+                </div>
+
+
+                <div id="uploader">
+                    <div class="queueList">
+                        <div id="dndArea" class="placeholder">
+                            <div id="filePicker"></div>
+                            <p>或将照片拖到这里，单次最多可选300张</p>
+                        </div>
+                    </div>
+                    <div class="statusBar" style="display:none;">
+                        <div class="progress">
+                            <span class="text">0%</span>
+                            <span class="percentage"></span>
+                        </div>
+                        <div class="info"></div>
+                        <div class="btns">
+                            <div id="filePicker2"></div>
+                            <div class="uploadBtn">开始上传</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">确认保存</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    function picyiru(obj, type) {
+        if (type == 0) {
+            $(obj).find('.picrem').show();
+        } else {
+            $(obj).find('.picrem').hide();
+        }
+    }
+
+    function delpic(thisdata,obj, imgurl) {
+       if(confirm('确定要删除此图片么？请慎重操作!!!')){
+           $.ajax({
+               type: "POST",
+               url: "/admin/business/delPic",
+               data: "id=" + obj + "&imgurl=" + imgurl,
+               success: function (msg) {
+                   if (msg == 0) {
+                       var imgurls = $("#imgurls").val();
+                       var newstr = imgurls.replace(imgurl + ";", "");
+                       $("#imgurls").val(newstr);
+                       $(thisdata).parent().parent().parent().remove();
+                   }
+
+               }
+           });
+       }
+    }
+
+    $(function(){
+        var type_value = {$supplydetail.type_value?:0};
+        switch (type_value) {
+            case 3:    //3求租；
+                $("#pricelabel").text("租金(元/月)");
+                $("#pricenum").attr("placeholder", "请输入租金");
+                break;
+            case 4:    //4求购
+                $("#pricelabel").text("售价(万元)");
+                $("#pricenum").attr("placeholder", "请输入售价");
+                break;
+            default:
+                $("#pricelabel").text("租金(元/月)");
+                $("#pricenum").attr("placeholder", "请输入租金");
+                break;
+        }
+
+       $('input[type=radio][name=typevalue]').change(function() {
+           switch (this.value){
+               case "3":    //3求租；
+                   $("#pricelabel").text("租金(元/月)");
+                   $("#pricenum").attr("placeholder","请输入租金");
+                   break;
+               case "4":    //4求购
+                   $("#pricelabel").text("售价(万元)");
+                   $("#pricenum").attr("placeholder","请输入售价");
+                   break;
+
+           }
+       });
+   })
+</script>

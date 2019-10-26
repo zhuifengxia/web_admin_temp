@@ -1,0 +1,60 @@
+{extend name="layouts/main" /}
+{block name="main"}
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    <a class="layui-btn" href="/admin/users/addCustomer"><i class="layui-icon"></i>添加客服/精英</a>
+                </div>
+                <div class="layui-card-body layui-table-body layui-table-main">
+                    <table class="layui-table layui-form">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>姓名</th>
+                            <th>数据类型</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {volist name="customers" id="vo"}
+                        <tr>
+                            <td>{$item.id}</td>
+                            <td>{$item.customer_name}</td>
+                            <td>{$item.data_type==0?"客服":"精英"}</td>
+                            <td>
+                                <a href="/admin/users/addCustomer/{$item.id}"><i class="fa fa-pencil fa-fw" style="font-size: 20px;" title="编辑"></i></a>
+                                <a href="/admin/users/delCustomer/{$item.id}" onclick="return confirm('确定要删除该数据么？')"><i class="fa fa-trash-o fa-fw" style="font-size: 20px;" title="删除"></i></a>
+                            </td>
+                        </tr>
+                        {/volist}
+                        </tbody>
+                    </table>
+                    {empty name="customers"}
+                    暂无数据
+                    {/empty}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(['laydate','form'], function(){
+        var laydate = layui.laydate;
+        var  form = layui.form;
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#start' //指定元素
+        });
+
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#end' //指定元素
+        });
+
+
+    });
+
+</script>
+{/block}
