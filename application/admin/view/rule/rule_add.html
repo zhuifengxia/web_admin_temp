@@ -1,0 +1,91 @@
+{extend name="layouts/main" /}
+{block name="main"}
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-card-header">
+            {$data.id==0?"添加":"编辑"}路由
+        </div>
+        <div class="layui-card-body">
+            <div class="layui-form">
+                <div class="box-body">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label"><span class='x-red'>*</span>&nbsp;路由名称</label>
+                        <input type="hidden" name="id" id="id" value="{$data.id}"/>
+                        <div class="layui-input-inline">
+                            <input type="text" id="rulename" name="rulename" value="{$data.rule_name}"
+                                   lay-verify="required"
+                                   class="layui-input"
+                                   placeholder="请输入路由名称">
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label"><span class='x-red'>*</span>&nbsp;路由地址</label>
+                        <div class="layui-input-inline">
+                            <input type="text" id="rulestr" name="rulestr" value="{$data.rule_str}" class="layui-input"
+                                   placeholder="请输入路由地址">
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">上级路由</label>
+                        <div class="layui-input-inline">
+                            <select name="pid" id="pid" lay-verify="required" class="layui-select">
+                                <option value="0">顶级路由</option>
+                                {volist name="rootrule" id="item"}
+                                <option value="{$item.id}">{$item.rule_name}</option>
+                                {/volist}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <button class="layui-btn" onclick="dataSave()">确认保存</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    let layer;
+    let form;
+    layui.use(['layer', 'form'], function () {
+        layer = layui.layer;
+        form = layui.form;
+
+    });
+
+    function confirmdel(jumpurl) {
+        layer.confirm(
+            '确定要删除此路由么?',
+            function () {
+                window.location.href = jumpurl;
+            }
+        );
+    }
+
+    //数据信息保存
+    function dataSave() {
+        var id = $("#id").val();
+        var rulename = $("#rulename").val();
+        var rulestr = $("#rulestr").val();
+        var pid = $("#pid").val();
+        $.ajax({
+            type: "post",
+            url: "{:url('/admin/rule/add')}",
+            data: "id=" + id + "&rule_name=" + rulename + "&rule_str=" + rulestr + "&pid=" + pid,
+            success: function (data) {
+                layer.msg(data.msg, {
+                    time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                }, function () {
+                    if (data.code == 0) {
+                        window.location.href = "{:url('/admin/rule/list')}";
+                    }
+                });
+
+            }
+        });
+    }
+</script>
+{/block}

@@ -11,5 +11,8 @@ namespace app\common\model;
 
 class Rules extends Base
 {
-
+    public function __construct($data = ['id'=>0,'rule_name'=>'','rule_str'=>'','pid'=>0])
+    {
+        parent::__construct($data);
+    }
 }

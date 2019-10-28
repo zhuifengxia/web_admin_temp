@@ -33,6 +33,11 @@ Route::group('admin',[
     'group/list'   => ['admin/Group/groupList', ['method' => 'get']],
     'group/add/[:id]'   => ['admin/Group/groupAdd', ['method' => 'get|post']],
     'group/delete/:id'   => ['admin/Group/groupDel', ['method' => 'get']],
+
+    //路由管理
+    'rule/list'   => ['admin/Rule/ruleList', ['method' => 'get']],
+    'rule/add/[:id]'   => ['admin/Rule/ruleAdd', ['method' => 'get|post']],
+    'rule/delete/:id'   => ['admin/Rule/ruleDel', ['method' => 'get']],
 ]);
 
 
