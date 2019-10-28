@@ -32,11 +32,7 @@ Route::group('admin',[
     //管理组管理
     'group/list'   => ['admin/Group/groupList', ['method' => 'get']],
     'group/add/[:id]'   => ['admin/Group/groupAdd', ['method' => 'get|post']],
-
-    //用户管理
-    'user/list'   => ['admin/Admin/userList', ['method' => 'get']],
-    'user/add/[:id]' => ['admin/Users/addUser',['method' => 'get|post']],
-    'user/delete/:id' => ['admin/Users/delUser'],
+    'group/delete/:id'   => ['admin/Group/groupDel', ['method' => 'get']],
 ]);
 
 

@@ -9,6 +9,7 @@
 namespace app\admin\controller;
 
 use app\common\model\Group as GroupModel;
+use think\Request;
 
 class Group extends Base
 {
@@ -17,7 +18,8 @@ class Group extends Base
      */
     public function groupList()
     {
-        $data = parent::$dataModel->dataList(GroupModel::class);
+        $groupModel = new GroupModel();
+        $data = $groupModel->dataList(GroupModel::class);
         $this->assign('data',$data);
         return $this->fetch();
     }
@@ -25,11 +27,48 @@ class Group extends Base
     /**
      * 新增/更新管理组
      */
-    public function groupAdd($id=0)
+    public function groupAdd(Request $request)
     {
         $groupModel = new GroupModel();
-        $data = $groupModel->oneDetail(GroupModel::class, ['id' => $id]);
-        $this->assign('data', $data);
-        return $this->fetch();
+        if ($request->isPost()) {
+            $postdata = $request->post();
+            $where = [
+                ['group_name', '=', $postdata['group_name']]
+            ];
+            if ($postdata['id']) {
+                $where[] = ['id', '<>', $postdata['id']];
+            }
+            $data = $groupModel->oneDetail(GroupModel::class, $where);
+            if (empty($data)) {
+                if ($postdata['id']) {
+                    $groupModel->updateOne(GroupModel::class, $postdata, ['id' => $postdata['id']]);
+                } else {
+                    $groupModel->addOne(GroupModel::class, $postdata);
+                }
+                return json(['code' => 0, 'msg' => '保存成功']);
+            } else {
+                //已经有这个管理组了
+                return json(['code' => 1, 'msg' => '已经有此管理组了，请重新输入']);
+            }
+        } else {
+            $id = input('id', 0);
+            if ($id) {
+                $data = $groupModel->oneDetail(GroupModel::class, ['id' => $id]);
+            } else {
+                $data = $groupModel;
+            }
+            $this->assign('data', $data);
+            return $this->fetch();
+        }
+    }
+
+    /**
+     * 删除管理组
+     */
+    public function groupDel($id)
+    {
+        $groupModel = new GroupModel();
+        $groupModel->updateOne(GroupModel::class, ['is_logic_del' => 1], ['id' => $id]);
+        return $this->redirect('/admin/group/list');
     }
 }

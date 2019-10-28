@@ -43,7 +43,7 @@ class Base extends Model
     {
         $data = $className::where('is_logic_del', 0)
             ->where($where)
-            ->findOrEmpty();
+            ->find();
         return $data;
     }
 

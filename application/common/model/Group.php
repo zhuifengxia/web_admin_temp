@@ -11,5 +11,8 @@ namespace app\common\model;
 
 class Group extends Base
 {
-
+    public function __construct($data = ['id'=>0,'group_name'=>'','group_info'=>''])
+    {
+        parent::__construct($data);
+    }
 }
