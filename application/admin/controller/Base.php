@@ -33,16 +33,24 @@ class Base extends Controller
         }
     }
 
-    const URL_ARR=[
-        'admin/index'=>"首页",
-
-    ];
-
     //面包屑
     public function setCrumbs()
     {
         $urlStr = $this->getUrlStr();
-//        $this->assign(['action'=>self::URL_ARR[$urlStr]]);
+        $urlStr = explode('<', $urlStr);
+        $urlStr = "/" . trim($urlStr[0], "/");
+        $locate = db('rules')
+            ->where('rule_str', $urlStr)
+            ->find();
+        $location = ['frule' => '', 'location' => $locate['rule_name']];
+        if ($locate['pid'] != 0) {
+            //获取父级路由
+            $frule = db('rules')
+                ->where('id', $locate['pid'])
+                ->find();
+            $location['frule'] = $frule;
+        }
+        $this->assign('menu_navigate', $location);
     }
 
 
