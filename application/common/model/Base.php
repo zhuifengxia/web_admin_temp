@@ -84,6 +84,7 @@ class Base extends Model
      */
     public function updateOne($className,$data,$where)
     {
+        $data['update_time'] = time();
         $className::where($where)
             ->update($data);
     }
@@ -96,6 +97,8 @@ class Base extends Model
      */
     public function addOne($className,$data)
     {
+        $data['create_time'] = time();
+        $data['update_time'] = time();
         $id = $className::where('1=1')
             ->insertGetId($data);
         return $id;

@@ -1,0 +1,92 @@
+{extend name="layouts/main" /}
+{block name="main"}
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-card-header">
+            {$data.id==0?"添加":"编辑"}管理员
+        </div>
+        <div class="layui-card-body">
+            <div  class="layui-form">
+                <div class="box-body">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label"><span class='x-red'>*</span>&nbsp;管理员名称</label>
+                        <input type="hidden" name="id" id="id" value="{$data.id}"/>
+                        <div class="layui-input-inline">
+                            <input type="text" id="username" name="username" value="{$data.user_name}"
+                                   class="layui-input"
+                                   placeholder="请输入管理员名">
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">{$data.id==0?"<span class='x-red'>*</span>&nbsp;":''}管理员密码</label>
+                        <div class="layui-input-inline">
+                            <input type="text" id="userpwd" name="userpwd" class="layui-input"
+                                   placeholder="请输入管理员密码">
+                        </div>
+                        {if $data.id}
+                        <span class='x-red'>更新密码填写，否则不需要填写</span>
+                        {/if}
+                    </div>
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">所属管理组</label>
+                        <div class="layui-input-inline">
+                            <select name="groupid" id="groupid" class="layui-select">
+                                {volist name="group" id="item"}
+                                <option value="{$item.id}">{$item.group_name}</option>
+                                {/volist}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <button class="layui-btn" onclick="dataSave()">确认保存</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    let layer;
+    let form;
+    layui.use(['layer', 'form'], function () {
+        layer = layui.layer;
+        form = layui.form;
+
+    });
+    //数据信息保存
+    function dataSave() {
+        var id=$("#id").val();
+        var username=$("#username").val();
+        var userpwd=$("#userpwd").val();
+        var groupid=$("#groupid").val();
+        if(username=="")
+        {
+            layer.msg('管理员名不能为空');
+            return false;
+        }
+        if(userpwd==""&&id==0)
+        {
+            layer.msg('密码不能为空');
+            return false;
+        }
+        $.ajax({
+            type: "post",
+            url: "{:url('/admin/user/add')}",
+            data: "id=" + id+"&user_name="+username+"&user_pwd="+userpwd +"&group_id="+groupid,
+            success: function (data) {
+                layer.msg(data.msg, {
+                    time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                }, function(){
+                    if(data.code==0){
+                        window.location.href="{:url('/admin/user/list')}";
+                    }
+                });
+
+            }
+        });
+    }
+</script>
+{/block}

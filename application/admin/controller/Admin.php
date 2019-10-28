@@ -15,30 +15,4 @@ class Admin extends Base
     {
         return $this->fetch();
     }
-
-    /**
-     * 管理员列表数据
-     * @return mixed
-     */
-    public function userList()
-    {
-        return $this->fetch();
-    }
-
-    /**
-     * 管理员新增/更新
-     * @return mixed
-     */
-    public function addUser()
-    {
-        return $this->fetch();
-    }
-
-    /**
-     * 删除管理员
-     */
-    public function delUser()
-    {
-
-    }
 }

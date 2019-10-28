@@ -38,6 +38,11 @@ Route::group('admin',[
     'rule/list'   => ['admin/Rule/ruleList', ['method' => 'get']],
     'rule/add/[:id]'   => ['admin/Rule/ruleAdd', ['method' => 'get|post']],
     'rule/delete/:id'   => ['admin/Rule/ruleDel', ['method' => 'get']],
+
+    //管理员管理
+    'user/list'   => ['admin/Users/userList', ['method' => 'get']],
+    'user/add/[:id]'   => ['admin/Users/userAdd', ['method' => 'get|post']],
+    'user/delete/:id'   => ['admin/Users/userDel', ['method' => 'get']],
 ]);
 
 

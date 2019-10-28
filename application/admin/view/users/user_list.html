@@ -1,0 +1,62 @@
+{extend name="layouts/main" /}
+{block name="main"}
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    <a class="layui-btn" href="/admin/user/add"><i class="layui-icon"></i>添加管理员</a>
+                </div>
+                <div class="layui-card-body layui-table-body layui-table-main">
+                    <table class="layui-table layui-form">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>管理员名</th>
+                            <th>所属管理组</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {volist name="data" id="item"}
+                        <tr>
+                            <td>{$item.id}</td>
+                            <td>{$item.user_name}</td>
+                            <td>{$item.group_name}</td>
+                            <td>
+                                <a class="layui-btn layui-btn-normal layui-btn-xs" href="/admin/user/add/{$item.id}"><i
+                                        class="layui-icon layui-icon-edit"></i>编辑</a>
+                                <a class="layui-btn layui-btn-danger layui-btn-xs"
+                                   href="javascript:confirmdel('/admin/user/delete/{$item.id}');"><i
+                                        class="layui-icon layui-icon-delete"></i>删除</a>
+                            </td>
+                        </tr>
+                        {/volist}
+                        </tbody>
+                    </table>
+                    {empty name="data"}
+                    暂无数据
+                    {/empty}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    let layer;
+    let form;
+    layui.use(['layer', 'form'], function () {
+        layer = layui.layer;
+        form = layui.form;
+
+    });
+    function confirmdel(jumpurl) {
+        layer.confirm(
+            '确定要删除此管理组么?',
+            function () {
+                window.location.href = jumpurl;
+            }
+        );
+    }
+</script>
+{/block}
