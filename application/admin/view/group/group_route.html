@@ -1,0 +1,45 @@
+{extend name="layouts/main" /}
+{block name="main"}
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header">
+                   <span>管理组权限</span>
+                </div>
+                <div  class="layui-form">
+                    <div class="box-body">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label" style="width: 120px;">{$group.group_name}-权限管理</label>
+                        </div>
+
+                        {volist name="group.rules" id="item"}
+                        <div class="layui-form-item">
+                            <label class="layui-form-label" style="width: 120px;">{$item.rule_name}</label>
+                        </div>
+                        {/volist}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    let layer;
+    let form;
+    layui.use(['layer', 'form'], function () {
+        layer = layui.layer;
+        form = layui.form;
+
+    });
+    function confirmdel(jumpurl) {
+        layer.confirm(
+            '确定要删除此管理组么?',
+            function () {
+                window.location.href = jumpurl;
+            }
+        );
+    }
+</script>
+{/block}

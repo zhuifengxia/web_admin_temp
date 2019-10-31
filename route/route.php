@@ -16,7 +16,6 @@ Route::get('think', function () {
 Route::get('hello/:name', 'index/hello');
 
 
-
 /**
  * 后台管理相关
  */
@@ -33,6 +32,7 @@ Route::group('admin',[
     'group/list'   => ['admin/Group/groupList', ['method' => 'get']],
     'group/add/[:id]'   => ['admin/Group/groupAdd', ['method' => 'get|post']],
     'group/delete/:id'   => ['admin/Group/groupDel', ['method' => 'get']],
+    'group/route/:id'   => ['admin/Group/groupRoute', ['method' => 'get']],
 
     //路由管理
     'rule/list'   => ['admin/Rule/ruleList', ['method' => 'get']],
